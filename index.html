@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #000 url('Onix.png') no-repeat center center; /* Onix background behind laptop */
+    background: #000 url('Onix.png') no-repeat center center;
     background-size: cover;
     font-family: monospace;
     overflow: hidden;
@@ -31,13 +31,7 @@
     z-index:0;
   }
 
-  .laptop-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index:1;
-  }
+  .laptop-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; z-index:1; }
 
   .laptop {
     width: 700px;
@@ -52,7 +46,6 @@
     overflow: hidden;
   }
 
-  /* Laptop screen */
   .screen {
     flex: 1;
     display: flex;
@@ -69,61 +62,20 @@
     position: relative;
   }
 
-  @keyframes flicker {
-    0% { opacity: 0.95; }
-    50% { opacity: 1; }
-    100% { opacity: 0.97; }
-  }
+  @keyframes flicker { 0% { opacity: 0.95; } 50% { opacity: 1; } 100% { opacity: 0.97; } }
 
   #boot { white-space: pre-wrap; width: 100%; }
   #cursor { display: inline-block; width: 10px; color: #fff; animation: blink 1s infinite; }
   @keyframes blink { 0%,50% {opacity:1;} 50.01%,100% {opacity:0;} }
 
-  /* SCP-style documents list */
-  #documents {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 14px;
-    color: #ccc;
-    text-align: right;
-  }
+  #documents { position: absolute; top: 20px; right: 20px; font-size: 14px; color: #ccc; text-align: right; }
 
-  #flash {
-    position: absolute; top:0; left:0;
-    width:100%; height:100%;
-    background:white; opacity:0;
-    transition: opacity 0.2s;
-    pointer-events:none;
-  }
+  #flash { position: absolute; top:0; left:0; width:100%; height:100%; background:white; opacity:0; transition: opacity 0.2s; pointer-events:none; }
 
-  #main {
-    display:none;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    background: rgba(0,31,63,0.9);
-    color:white;
-    width:100%; height:100%;
-    position: relative;
-  }
+  #main { display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; background: rgba(0,31,63,0.9); color:white; width:100%; height:100%; position: relative; }
 
-  /* Centered SCP logo spinning slowly in place */
-  #scp-logo {
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    width: 150px;
-    height: 150px;
-    animation: spin 20s linear infinite; /* slow spin */
-  }
-
-  @keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-  }
+  #scp-logo { position: absolute; top:50%; left:50%; transform: translate(-50%, -50%) rotate(0deg); width: 150px; height: 150px; animation: spin 20s linear infinite; }
+  @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
   #loading-text { position:absolute; bottom:20px; font-size:20px; }
 
@@ -145,6 +97,27 @@
 </style>
 </head>
 <body>
+
+<!-- Background music with fade-in -->
+<audio id="bg-music" autoplay loop>
+  <source src="intro.mp3" type="audio/mpeg">
+</audio>
+<script>
+  const music = document.getElementById("bg-music");
+  music.volume = 0; // start silent
+  const targetVolume = 0.2; // final volume
+  const fadeDuration = 5000; // 5 seconds
+  const fadeSteps = 50;
+  const fadeInterval = fadeDuration / fadeSteps;
+  let currentStep = 0;
+  function fadeInMusic() {
+    currentStep++;
+    music.volume = Math.min(targetVolume, (currentStep / fadeSteps) * targetVolume);
+    if(currentStep < fadeSteps) setTimeout(fadeInMusic, fadeInterval);
+  }
+  fadeInMusic();
+</script>
+
 <div class="laptop-wrapper">
   <div class="laptop">
     <div class="screen">
@@ -161,6 +134,7 @@
 </div>
 
 <script>
+// Boot lines
 const bootLines = [
   "PX Laptop BIOS v1.0",
   "CPU: Onix Virtual Core 3.2GHz",
@@ -169,6 +143,7 @@ const bootLines = [
   "Starting Onix Project OS..."
 ];
 
+// SCP documents
 const scpDocuments = [
   "SCP-173_Report.txt",
   "SCP-096_Logs.docx",
@@ -177,8 +152,7 @@ const scpDocuments = [
   "SCP-682_Analysis.txt"
 ];
 
-let lineIndex = 0;
-let charIndex = 0;
+let lineIndex = 0, charIndex = 0;
 const bootDiv = document.getElementById("boot");
 const cursor = document.getElementById("cursor");
 const docDiv = document.getElementById("documents");
@@ -187,37 +161,33 @@ const loadingText = document.getElementById("loading-text");
 // Typing sound
 let typeSound = new Audio("https://www.soundjay.com/mechanical/sounds/keyboard-1.mp3");
 typeSound.volume = 0.15;
-
-function playTypeSound(){
-  typeSound.currentTime = 0;
-  typeSound.play().catch(()=>{});
-}
+function playTypeSound(){ typeSound.currentTime=0; typeSound.play().catch(()=>{}); }
 
 // Show SCP documents
 docDiv.innerHTML = scpDocuments.join("<br>");
 
 // Animated loading dots
-let loadingDots = "";
+let loadingDots="";
 function updateLoadingDots(){
   if(loadingDots.length>=3) loadingDots="";
   else loadingDots += ".";
-  loadingText.textContent = "Onix Project Loading" + loadingDots;
-  setTimeout(updateLoadingDots, 500);
+  loadingText.textContent = "Onix Project Loading"+loadingDots;
+  setTimeout(updateLoadingDots,500);
 }
 updateLoadingDots();
 
+// Typing animation
 function typeChar(){
-  if(lineIndex < bootLines.length){
-    if(charIndex < bootLines[lineIndex].length){
+  if(lineIndex<bootLines.length){
+    if(charIndex<bootLines[lineIndex].length){
       bootDiv.innerHTML += bootLines[lineIndex][charIndex];
       charIndex++;
       playTypeSound();
-      setTimeout(typeChar, 60);
+      setTimeout(typeChar,60);
     } else {
       bootDiv.innerHTML += "\n";
-      lineIndex++;
-      charIndex = 0;
-      setTimeout(typeChar, 400);
+      lineIndex++; charIndex=0;
+      setTimeout(typeChar,400);
     }
   } else {
     setTimeout(()=>{
@@ -231,8 +201,8 @@ function typeChar(){
     },500);
   }
 }
-
 typeChar();
 </script>
 </body>
 </html>
+
