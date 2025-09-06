@@ -4,53 +4,97 @@
 <meta charset="UTF-8">
 <title>Onix Project Loading...</title>
 <style>
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #000 url('Onix.png') no-repeat center center;
-  background-size: cover;
-  font-family: monospace;
-  overflow: hidden;
-  color: #fff;
-}
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000 url('Onix.png') no-repeat center center;
+    background-size: cover;
+    font-family: monospace;
+    overflow: hidden;
+    color: #fff;
+  }
 
-body::before {
-  content: '';
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  pointer-events:none;
-  background: radial-gradient(circle at top left, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%),
-              radial-gradient(circle at top right, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%),
-              radial-gradient(circle at bottom left, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%),
-              radial-gradient(circle at bottom right, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%);
-  z-index:0;
-}
+  body::before {
+    content: '';
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events:none;
+    background: radial-gradient(circle at top left, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%),
+                radial-gradient(circle at top right, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%),
+                radial-gradient(circle at bottom left, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%),
+                radial-gradient(circle at bottom right, rgba(128,0,128,0.2), rgba(0,0,0,0.95) 60%);
+    z-index:0;
+  }
 
-.laptop-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; z-index:1; }
-.laptop { width: 700px; height: 450px; background: #000; border: 12px solid #222; border-radius: 12px; box-shadow: 0 15px 60px rgba(0,0,0,0.9); display: flex; flex-direction: column; position: relative; overflow: hidden; }
-.screen { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; color: #fff; overflow: hidden; padding: 20px; font-size: 16px; text-shadow: 0 0 5px #fff; background: #000; animation: flicker 0.15s infinite alternate; position: relative; }
-@keyframes flicker { 0% { opacity: 0.95; } 50% { opacity: 1; } 100% { opacity: 0.97; } }
+  .laptop-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; z-index:1; }
+  .laptop {
+    width: 700px; height: 450px;
+    background: #000;
+    border: 12px solid #222;
+    border-radius: 12px;
+    box-shadow: 0 15px 60px rgba(0,0,0,0.9);
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
 
-#boot { white-space: pre-wrap; width: 100%; }
-#cursor { display: inline-block; width: 10px; color: #fff; animation: blink 1s infinite; }
-@keyframes blink { 0%,50% {opacity:1;} 50.01%,100% {opacity:0;} }
+  .screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: #fff;
+    overflow: hidden;
+    padding: 20px;
+    font-size: 16px;
+    text-shadow: 0 0 5px #fff;
+    background: #000;
+    animation: flicker 0.15s infinite alternate;
+    position: relative;
+  }
 
-#documents { position: absolute; top: 20px; right: 20px; font-size: 14px; color: #ccc; text-align: right; }
-#flash { position: absolute; top:0; left:0; width:100%; height:100%; background:white; opacity:0; transition: opacity 0.2s; pointer-events:none; }
-#main { display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; background: rgba(0,31,63,0.9); color:white; width:100%; height:100%; position: relative; }
-#scp-logo { position: absolute; top:50%; left:50%; transform: translate(-50%, -50%) rotate(0deg); width: 150px; height: 150px; animation: spin 20s linear infinite; }
-@keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+  @keyframes flicker { 0% { opacity: 0.95; } 50% { opacity: 1; } 100% { opacity: 0.97; } }
 
-#loading-text { position:absolute; bottom:20px; font-size:20px; }
-.laptop-base { width:720px; height:60px; background:#111; border-radius:0 0 12px 12px; margin-top:-12px; box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.05); animation: keyboard-glow 2s infinite alternate; }
-@keyframes keyboard-glow { 0% { box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.02);} 50% { box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.08);} 100% { box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.02);} }
+  #boot { white-space: pre-wrap; width: 100%; }
+  #cursor { display: inline-block; width: 10px; color: #fff; animation: blink 1s infinite; }
+  @keyframes blink { 0%,50% {opacity:1;} 50.01%,100% {opacity:0;} }
+
+  #documents { position: absolute; top: 20px; right: 20px; font-size: 14px; color: #ccc; text-align: right; }
+  #flash { position: absolute; top:0; left:0; width:100%; height:100%; background:white; opacity:0; transition: opacity 0.2s; pointer-events:none; }
+  #main { display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; background: rgba(0,31,63,0.9); color:white; width:100%; height:100%; position: relative; }
+
+  #scp-logo { position: absolute; top:50%; left:50%; transform: translate(-50%, -50%) rotate(0deg); width: 150px; height: 150px; animation: spin 20s linear infinite; }
+  @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  #loading-text { position:absolute; bottom:20px; font-size:20px; }
+
+  .laptop-base {
+    width:720px; height:60px;
+    background:#111;
+    border-radius:0 0 12px 12px;
+    margin-top:-12px;
+    box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.05);
+    animation: keyboard-glow 2s infinite alternate;
+  }
+  @keyframes keyboard-glow {
+    0% { box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.02);}
+    50% { box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.08);}
+    100% { box-shadow: 0 5px 40px rgba(0,0,0,0.8), inset 0 -2px 15px rgba(255,255,255,0.02);}
+  }
 </style>
 </head>
 <body>
+
+<!-- Background music using OGG for GMod -->
+<audio id="bg-music" autoplay loop>
+  <source src="intro.ogg" type="audio/ogg">
+</audio>
+
 <div class="laptop-wrapper">
   <div class="laptop">
     <div class="screen">
@@ -67,6 +111,7 @@ body::before {
 </div>
 
 <script>
+// Boot lines
 const bootLines = [
   "PX Laptop BIOS v1.0",
   "CPU: Onix Virtual Core 3.2GHz",
@@ -75,6 +120,7 @@ const bootLines = [
   "Starting Onix Project OS..."
 ];
 
+// SCP documents
 const scpDocuments = [
   "SCP-173_Report.txt",
   "SCP-096_Logs.docx",
@@ -136,3 +182,4 @@ typeChar();
 </script>
 </body>
 </html>
+
